@@ -55,7 +55,7 @@ public class EmagTest {
         //cautare element search bar
         WebElement mySearch = driver.findElement(By.id("searchboxTrigger"));
 
-        //scriere nume produse inexistent
+        //scriere nume produse
         mySearch.sendKeys("aspirator");
 
         //cautam element lupa din bara de search
@@ -70,14 +70,14 @@ public class EmagTest {
         //cautare element(button) de adaugare in cos si il apasam
         driver.findElement(By.xpath("//button[text()='Adauga in Cos']")).click();
 
-        // verificam ca exista dialog de confirmarea adaugarii in cos
-        Assert.assertEquals(driver.findElements(By.className("product-purchased-modal")).size(), 1);
+        // dam timp cosului de cumparaturi sa se actualizeze
+        // asteptam ca numarul de produse din cos sa fie vizibil
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement elementNumarProduseInCos = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"my_cart\"]/span[1]")));
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-        driver.findElement(By.className("close")).click();
-
-        driver.findElement(By.id("my_cart")).click();
+        // extragem si verificam numarul de produse din cos
+        String textNumarProduseInCos = elementNumarProduseInCos.getText();
+        Assert.assertEquals(textNumarProduseInCos, "1");
     }
 
     @Test(priority = 3)
@@ -85,7 +85,7 @@ public class EmagTest {
         //cautare element search bar
         WebElement mySearch = driver.findElement(By.id("searchboxTrigger"));
 
-        //scriere nume produse inexistent
+        //scriere nume produs
         mySearch.sendKeys("televizor");
 
         //cautam element lupa din bara de search
@@ -97,22 +97,23 @@ public class EmagTest {
         //o folosim cand asteptam incarcarea elementelor in pagina (5 secunde)
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 
-        //adaugam produsul la favorite 
+        //adaugam produsul la favorite
         driver.findElement(By.className("add-to-favorites")).click();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        // dam timp listei de favorite sa se actualizeze
+        // asteptam ca numarul de produse din cos sa fie vizibil
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement elementNumarProduseFavorite = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"my_wishlist\"]/span[1]")));
 
-        driver.findElement(By.id("my_wishlist")).click();
-
-        Assert.assertEquals(driver.findElements(By.className("jewel-danger")).size(), 2);
-
-
+        // extragem si verificam numarul de produse favorite
+        String textNumarProduseFavorite = elementNumarProduseFavorite.getText();
+        Assert.assertEquals(textNumarProduseFavorite, "1");
     }
 
     @AfterMethod
     private void tearDown(){
         //inchidem pagina si browserul
-        //  driver.quit();
+        //driver.quit();
     }
 
 }
