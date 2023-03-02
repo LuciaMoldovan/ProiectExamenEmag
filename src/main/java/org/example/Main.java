@@ -1,5 +1,11 @@
-package org.example;public class Main {
+package org.example;
+
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Integer x = 34;
+        Integer y = 66;
+        Integer z = x + y;
+        System.out.println(z);
+
     }
 }
