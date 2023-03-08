@@ -17,14 +17,15 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class EmagTest {
-
     private WebDriver driver;
     @BeforeMethod
     public void setUp() {
         //crearea broser Chrome
         driver = new ChromeDriver();
+
         //punem fereastra de browser pe tot ecranul
         driver.manage().window().maximize();
+
         //deschide pagina Emag
         driver.get("https://www.emag.ro");
     }
@@ -51,7 +52,7 @@ public class EmagTest {
     }
 
     @Test(priority = 2)
-    public void adaugaProduInCos() {
+    public void adaugaProdusInCos() {
         //cautare element search bar
         WebElement mySearch = driver.findElement(By.id("searchboxTrigger"));
 
@@ -113,7 +114,7 @@ public class EmagTest {
     @AfterMethod
     private void tearDown(){
         //inchidem pagina si browserul
-        //driver.quit();
+        driver.quit();
     }
 
 }
